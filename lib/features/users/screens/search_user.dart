@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../controller/user_controller.dart';
+import 'user_details.dart';
 
 class SearchUser extends ConsumerStatefulWidget {
   const SearchUser({super.key});
@@ -101,7 +102,15 @@ class _SearchUserState extends ConsumerState<SearchUser> {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      UserDetails(userName: user.login),
+                                ),
+                              );
+                            },
                             child: Card(
                               elevation: 4,
                               shape: RoundedRectangleBorder(

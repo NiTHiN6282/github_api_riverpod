@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../models/user_model.dart';
 import '../../../models/user_search_model.dart';
 import '../repository/user_repository.dart';
 
@@ -8,6 +9,13 @@ final userRepositoryProvider = Provider((ref) => UserRepository());
 final userControllerProvider =
     StateNotifierProvider<UserController, UserSearchState>((ref) {
   return UserController(ref.watch(userRepositoryProvider));
+});
+
+final getUserDataProvider =
+    FutureProvider.family<UserModel?, String>((ref, userName) async {
+  return ref
+      .watch(userControllerProvider.notifier)
+      .getUserData(userName: userName);
 });
 
 class UserSearchState {
@@ -84,6 +92,13 @@ class UserController extends StateNotifier<UserSearchState> {
     } catch (e) {
       state = state.copyWith(isLoading: false);
     }
+  }
+
+  Future<UserModel?> getUserData({required String userName}) async {
+    final result = await _userRepository.getUserData(
+      userName: userName,
+    );
+    return result;
   }
 
   void resetSearch() {
