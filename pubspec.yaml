@@ -27,3 +27,5 @@ flutter:
 
   assets:
     - .env
+    - assets/
+    - assets/screenshots/
